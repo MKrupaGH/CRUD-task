@@ -1,0 +1,60 @@
+<div mat-dialog-title>
+  <h1>Campaign Form</h1>
+</div>
+<form [formGroup]="campaignForm" (ngSubmit)="checkValues()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Name</mat-label>
+        <input matInput type="text" formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-radio-group aria-label="Select an option" formControlName="status">
+        <mat-label><b>Status</b></mat-label>
+        <mat-radio-button value="on">On</mat-radio-button>
+        <mat-radio-button value="off">Off</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Keywords</mat-label> -->
+        <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings" [data]="keywords"
+          formControlName="keyword" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+        <!-- <mat-select formControlName="keyword">
+          <mat-option *ngFor="let key of keywords" [value]="key">{{key}}</mat-option>
+        </mat-select> -->
+      <!-- </mat-form-field> -->
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Bid Amount</mat-label>
+        <input matInput type="number" formControlName="bidAmount">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Fund</mat-label>
+        <input matInput type="number" formControlName="campaignFund">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Town</mat-label>
+        <mat-select formControlName="town">
+          <mat-option *ngFor="let town of towns" [value]="town">{{town}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Radius</mat-label>
+        <input matInput type="number" formControlName="radius">
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!campaignForm.valid" type="submit">{{data ? 'Update' :
+      'Save'}}</button>
+  </div>
+</form>
