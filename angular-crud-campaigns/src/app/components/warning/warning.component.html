@@ -1,1 +1,13 @@
-<p>warning works!</p>
+<div class="warn-box">
+  <mat-dialog-content>
+    Are you sure?
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-icon-button color="primary" [mat-dialog-close]="false">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" [mat-dialog-close]="true">
+      <mat-icon>check</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</div>

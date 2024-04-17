@@ -1,59 +1,44 @@
 import { Injectable } from '@angular/core';
 import { campaigns } from '../mock/campaigns';
 import { Campaign } from '../models/campaign.model';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignsService {
-  private campaigns: Campaign[] = campaigns;
-
-  constructor() {}
+  //mock state to updated view
+  campaignsState = new BehaviorSubject<Campaign[]>([]);
+  //campaigns: Campaign[] = []
+  constructor(private http: HttpClient) {}
 
   getCampaigns(): Observable<Campaign[]> {
-    return of(this.campaigns);
+    return this.http
+      .get<Campaign[]>('http://localhost:3000/campaigns')
+      .pipe(tap((campaigns) => this.campaignsState.next(campaigns)));
   }
 
-  addCampaign(campaign: any): Observable<Campaign[]> {
-    // const id = Math.max(
-    //   [...this.campaigns].map((campaign) => campaign.id),
-    //   1
-    // );
-
-    const id = 1000;
-
-    console.log([
-      ...this.campaigns,
-      {
-        id: id,
-        ...campaign,
-      },
-    ]);
-
-    return of([
-      ...this.campaigns,
-      {
-        id: id,
-        ...campaign,
-      },
-    ]);
-  }
-
-  deleteCampaign(campaignId: number): Observable<Campaign[]> {
-    return of(
-      [...this.campaigns].filter((campaign) => campaign.id !== campaignId)
+  addCampaign(campaign: Campaign): Observable<Campaign> {
+    return this.http.post<Campaign>(
+      'http://localhost:3000/campaigns',
+      campaign
     );
   }
 
-  updateCampaignById(id: number, updatedCampaign: any): Observable<Campaign[]> {
-    return of(
-      [...this.campaigns].map((campaign) => {
-        if (campaign.id === id) {
-          campaign = { id, ...updatedCampaign };
-        }
-        return campaign;
-      })
+  deleteCampaign(campaignId: string): Observable<Campaign> {
+    return this.http.delete<Campaign>(
+      `http://localhost:3000/campaigns/${campaignId}`
+    );
+  }
+
+  updateCampaignById(
+    id: string,
+    updatedCampaign: Campaign
+  ): Observable<Campaign> {
+    return this.http.put<Campaign>(
+      `http://localhost:3000/campaigns/${id}`,
+      updatedCampaign
     );
   }
 }

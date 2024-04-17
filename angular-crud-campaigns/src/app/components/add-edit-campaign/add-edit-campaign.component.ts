@@ -23,7 +23,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CampaignsService } from '../../services/campaigns.service';
 import { CoreService } from '../../core/core.service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 enum Fields {
   NAME = 'name',
   STATUS = 'status',
@@ -66,7 +66,7 @@ interface FormType {
   templateUrl: './add-edit-campaign.component.html',
   styleUrl: './add-edit-campaign.component.scss',
 })
-export class AddEditCampaignComponent {
+export class AddEditCampaignComponent implements OnInit {
   campaignForm = this.fb.group<FormType>({
     [Fields.NAME]: this.fb.control('', [Validators.required]),
     [Fields.STATUS]: this.fb.control('', [Validators.required]),
@@ -101,14 +101,28 @@ export class AddEditCampaignComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  ngOnInit(): void {
+    this.campaignForm.patchValue(this.data);
+  }
+
   onFormSubmit() {
     console.log(this.campaignForm.value);
     if (this.campaignForm.valid) {
       if (this.data) {
         this.campaignsService
-          .updateCampaignById(this.data.id, this.campaignForm.value)
+          .updateCampaignById(this.data.id, this.campaignForm.getRawValue())
           .subscribe({
             next: (val: any) => {
+              this.campaignsService.campaignsState.next(
+                [...this.campaignsService.campaignsState.value].map(
+                  (campaign) => {
+                    if (campaign.id === val.id) {
+                      campaign = val;
+                    }
+                    return campaign;
+                  }
+                )
+              );
               this.coreService.openSnackBar(
                 'Employee updated successfully',
                 'Updated'
@@ -120,18 +134,27 @@ export class AddEditCampaignComponent {
             },
           });
       } else {
-        this.campaignsService.addCampaign(this.campaignForm.value).subscribe({
-          next: (val: any) => {
-            this.coreService.openSnackBar(
-              'Employee added successfully',
-              'Added'
-            );
-            this.dialogRef.close(true);
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
+        this.campaignsService
+          .addCampaign(this.campaignForm.getRawValue())
+          .subscribe({
+            next: (val: any) => {
+              console.log(val);
+              this.campaignsService.campaignsState.next([
+                ...this.campaignsService.campaignsState.value,
+                val,
+              ]);
+              console.log(this.campaignsService.campaignsState.value);
+
+              this.coreService.openSnackBar(
+                'Employee added successfully',
+                'Added'
+              );
+              this.dialogRef.close(true);
+            },
+            error: (err) => {
+              console.error(err);
+            },
+          });
       }
     }
   }

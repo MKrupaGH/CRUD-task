@@ -9,7 +9,7 @@ export const campaigns: Campaign[] = [
     campaignFund: 10000,
     status: 'on',
     town: 'New York',
-    radius: '40',
+    radius: 40,
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ export const campaigns: Campaign[] = [
     campaignFund: 10000,
     status: 'off',
     town: 'New York',
-    radius: '100',
+    radius: 100,
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const campaigns: Campaign[] = [
     campaignFund: 10000,
     status: 'on',
     town: 'New York',
-    radius: '300',
+    radius: 300,
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ export const campaigns: Campaign[] = [
     campaignFund: 20000,
     status: 'off',
     town: 'New York',
-    radius: '300',
+    radius: 300,
   },
   {
     id: 5,
@@ -49,6 +49,6 @@ export const campaigns: Campaign[] = [
     campaignFund: 30000,
     status: 'on',
     town: 'New York',
-    radius: '300',
+    radius: 300,
   },
 ];

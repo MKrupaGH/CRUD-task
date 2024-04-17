@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetService {
-  budget: number = 20000;
-
-  constructor() {}
+  budget = new BehaviorSubject<number>(10000);
 
   getBudget(): Observable<number> {
-    return of(this.budget);
+    return this.budget.asObservable();
   }
 
-  updateBudget(newBudget: number): Observable<number> {
-    return of((this.budget = newBudget));
+  updateBudget(newBudget: number) {
+    this.budget.next(newBudget);
   }
 }

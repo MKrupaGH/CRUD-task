@@ -1,1 +1,24 @@
-<p>campaign-detail works!</p>
+<div mat-dialog-title>
+  <h1>Details</h1>
+</div>
+<mat-dialog-content class="content">
+  <mat-list>
+    <mat-list-item>Name: <span>{{campaignDetail.name}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Status: <span>{{campaignDetail.status}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Keywords: <span>{{campaignDetail.keyword}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Bid Amount: <span>{{campaignDetail.bidAmount | currency}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Campaign Fund: <span>{{campaignDetail.campaignFund | currency}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Town: <span>{{campaignDetail.town}}</span></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Radius: <span>{{campaignDetail.radius}} km</span></mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions class="action">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

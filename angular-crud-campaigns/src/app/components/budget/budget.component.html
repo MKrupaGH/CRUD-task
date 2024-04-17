@@ -1,1 +1,6 @@
-<p>budget works!</p>
+<mat-card *ngIf="budget$ | async as budget">
+  <mat-card-content>Budget: {{budget | currency}}</mat-card-content>
+  <button mat-icon-button color="primary" ariaLabel="edit" (click)="openEditForm(budget)">
+    <mat-icon>edit</mat-icon>
+  </button>
+</mat-card>

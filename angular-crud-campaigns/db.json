@@ -1,0 +1,82 @@
+{
+  "campaigns": [
+    {
+      "name": "Marek122",
+      "status": "off",
+      "keyword": [
+        "bad"
+      ],
+      "bidAmount": 100,
+      "campaignFund": 20,
+      "town": "Mielec",
+      "radius": 10,
+      "id": "8a75"
+    },
+    {
+      "id": "bef6",
+      "name": "Marek",
+      "status": "on",
+      "keyword": [
+        "bad",
+        "easy"
+      ],
+      "bidAmount": 120,
+      "campaignFund": 1200,
+      "town": "New York",
+      "radius": 100
+    },
+    {
+      "id": "5e53",
+      "name": "Marek",
+      "status": "on",
+      "keyword": [
+        "bad",
+        "easy"
+      ],
+      "bidAmount": 100,
+      "campaignFund": 1002,
+      "town": "Mielec",
+      "radius": 100
+    },
+    {
+      "id": "d4d8",
+      "name": "MarekTest23",
+      "status": "off",
+      "keyword": [
+        "bad",
+        "easy"
+      ],
+      "bidAmount": 22,
+      "campaignFund": 22,
+      "town": "New York",
+      "radius": 22
+    },
+    {
+      "id": "d042",
+      "name": "dsadasdas",
+      "status": "off",
+      "keyword": [
+        "bad",
+        "easy"
+      ],
+      "bidAmount": 321,
+      "campaignFund": 132123,
+      "town": "New York",
+      "radius": 312
+    },
+    {
+      "id": "84d5",
+      "name": "dasdas",
+      "status": "off",
+      "keyword": [
+        "bad",
+        "easy",
+        "lol"
+      ],
+      "bidAmount": 312,
+      "campaignFund": 231,
+      "town": "New York",
+      "radius": 321
+    }
+  ]
+}

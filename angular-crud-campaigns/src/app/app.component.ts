@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { CampaignsListComponent } from './components/campaigns-list/campaigns-list.component';
+import { BudgetComponent } from './components/budget/budget.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { CampaignsListComponent } from './components/campaigns-list/campaigns-li
     RouterOutlet,
     HeaderComponent,
     CampaignsListComponent,
+    BudgetComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

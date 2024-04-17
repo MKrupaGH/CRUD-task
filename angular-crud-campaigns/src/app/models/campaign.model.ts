@@ -6,5 +6,5 @@ export interface Campaign {
   bidAmount: number;
   campaignFund: number;
   town: string;
-  radius: string;
+  radius: number;
 }
