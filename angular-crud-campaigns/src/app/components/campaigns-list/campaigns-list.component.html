@@ -1,5 +1,5 @@
-<div class="mat-elevation-z8 list">
-  <table mat-table [dataSource]="dataSource">
+<div class="mat-elevation-z8 list" *ngIf="dataSource$ | async as dataSource">
+  <table mat-table [dataSource]=" dataSource">
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">

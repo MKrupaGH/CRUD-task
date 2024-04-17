@@ -21,6 +21,8 @@ import { towns } from '../../constant/towns';
 import { keys } from '../../constant/keys';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { CampaignsService } from '../../services/campaigns.service';
+import { CoreService } from '../../core/core.service';
 
 enum Fields {
   NAME = 'name',
@@ -84,7 +86,7 @@ export class AddEditCampaignComponent {
     textField: 'item_text',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 10,
+    itemsShowLimit: 4,
     allowSearchFilter: true,
   };
 
@@ -93,18 +95,54 @@ export class AddEditCampaignComponent {
 
   constructor(
     private fb: NonNullableFormBuilder,
+    private campaignsService: CampaignsService,
+    private coreService: CoreService,
     private dialogRef: MatDialogRef<AddEditCampaignComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  checkValues() {
+  onFormSubmit() {
     console.log(this.campaignForm.value);
+    if (this.campaignForm.valid) {
+      if (this.data) {
+        this.campaignsService
+          .updateCampaignById(this.data.id, this.campaignForm.value)
+          .subscribe({
+            next: (val: any) => {
+              this.coreService.openSnackBar(
+                'Employee updated successfully',
+                'Updated'
+              );
+              this.dialogRef.close(true);
+            },
+            error: (err) => {
+              console.error(err);
+            },
+          });
+      } else {
+        this.campaignsService.addCampaign(this.campaignForm.value).subscribe({
+          next: (val: any) => {
+            this.coreService.openSnackBar(
+              'Employee added successfully',
+              'Added'
+            );
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+      }
+    }
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
+  showMinimalErrors() {
+    const bidAmount = this.campaignForm.get('bidAmount');
+    if (bidAmount?.touched && !bidAmount.valid) {
+      if (bidAmount.errors?.['min']) {
+        return 'Bid should be minimum 20$';
+      }
+    }
+    return;
   }
 }

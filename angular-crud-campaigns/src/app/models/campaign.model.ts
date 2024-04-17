@@ -1,10 +1,10 @@
 export interface Campaign {
-  id: number;
+  id?: number;
   name: string;
   status: string;
   keyword: string[];
   bidAmount: number;
-  campaignFound: number;
+  campaignFund: number;
   town: string;
   radius: string;
 }
