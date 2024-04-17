@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -9,14 +9,52 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { BudgetService } from '../../services/budget.service';
 @Component({
   selector: 'app-edit-budget',
   standalone: true,
-  imports: [],
+  imports: [
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogClose,
+  ],
   templateUrl: './edit-budget.component.html',
   styleUrl: './edit-budget.component.scss',
 })
-export class EditBudgetComponent {}
+export class EditBudgetComponent {
+  budgetForm = this.fb.group({
+    budget: this.fb.control(this.data, [Validators.required]),
+  });
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: number,
+    private fb: NonNullableFormBuilder,
+    private dialogRef: MatDialogRef<EditBudgetComponent>,
+    private budgetService: BudgetService
+  ) {}
+
+  onFormSubmit() {
+    if (this.budgetForm.valid) {
+      this.updateBudget();
+      this.closeDialog();
+    }
+  }
+
+  private updateBudget() {
+    this.budgetService.updateBudget(this.budgetForm.get(['budget'])!.value);
+  }
+
+  private closeDialog() {
+    this.dialogRef.close(true);
+  }
+}
