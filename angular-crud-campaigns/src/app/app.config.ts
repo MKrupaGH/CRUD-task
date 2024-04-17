@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     {
       provide: APP_INITIALIZER,
-      useFactory: () => initializeApp,
+      useFactory: initializeApp,
       multi: true,
       deps: [HttpClient, CampaignsService],
     },
