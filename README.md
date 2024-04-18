@@ -12,8 +12,8 @@ Mocked server for this application is hosted with use of Render.com.
 Either clone this repository or fork it on GitHub and clone your fork:
 
 ```
-git clone https://github.com/angular-app/angular-app.git
-cd angular-app
+git clone https://github.com/MKrupaGH/CRUD-task
+cd angular-crud-campaigns
 ```
 ## App Server
 
@@ -22,7 +22,7 @@ Our backend application server is a NodeJS application that relies upon some 3rd
 Install local dependencies (from the project root folder):
 
     ```
-    cd server
+    cd angular-crud-campaigns
     npm install
     cd ..
     ```
