@@ -26,11 +26,15 @@
       <mat-form-field appearance="outline">
         <mat-label>Bid Amount ($)</mat-label>
         <input matInput type="number" formControlName="bidAmount">
-        <mat-error>{{showMinimalErrors()}}</mat-error>
+        <mat-error
+          *ngIf="campaignForm?.touched && !campaignForm.valid && campaignForm.get('bidAmount')!.errors?.['min']">Bid
+          should be minimum {{20 |
+          currency}}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Campaign Fund ($)</mat-label>
         <input matInput type="number" formControlName="campaignFund">
+        <!-- <mat-error>{{showBudgetError()}}</mat-error> -->
       </mat-form-field>
     </div>
     <div class="row">
