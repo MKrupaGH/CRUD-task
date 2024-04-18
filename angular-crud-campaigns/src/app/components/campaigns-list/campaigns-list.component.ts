@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { AddEditCampaignComponent } from '../add-edit-campaign/add-edit-campaign
 import { WarningComponent } from '../warning/warning.component';
 import { CoreService } from '../../core/core.service';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-campaigns-list',
   standalone: true,
@@ -33,7 +34,8 @@ export class CampaignsListComponent implements OnInit {
   constructor(
     private campaignsService: CampaignsService,
     private dialog: MatDialog,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -59,13 +61,16 @@ export class CampaignsListComponent implements OnInit {
     });
   }
   private deleteCampaign(id: string) {
-    this.campaignsService.deleteCampaign(id).subscribe({
-      next: (res) => {
-        this.deleteCampaignInState(id);
-        this.showSuccessSnackBar('Employee deleted successfully', 'Deleted');
-      },
-      error: (err) => this.handleError(err),
-    });
+    this.campaignsService
+      .deleteCampaign(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.deleteCampaignInState(id);
+          this.showSuccessSnackBar('Employee deleted successfully', 'Deleted');
+        },
+        error: (err) => this.handleError(err),
+      });
   }
 
   private deleteCampaignInState(id: string) {

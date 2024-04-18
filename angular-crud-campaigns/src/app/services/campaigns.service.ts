@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Campaign } from '../models/campaign.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -13,31 +14,26 @@ export class CampaignsService {
   constructor(private http: HttpClient) {}
 
   getCampaigns(): Observable<Campaign[]> {
-    return this.http
-      .get<Campaign[]>('https://mock-crcf.onrender.com/campaigns')
-      .pipe(tap((campaigns) => this.campaignsState.next(campaigns)));
+    return this.http.get<Campaign[]>(environment.URL).pipe(
+      tap((campaigns) => this.campaignsState.next(campaigns)),
+      catchError((err) => {
+        return of(err);
+      })
+    );
   }
 
   addCampaign(campaign: Campaign): Observable<Campaign> {
-    return this.http.post<Campaign>(
-      'https://mock-crcf.onrender.com/campaigns',
-      campaign
-    );
+    return this.http.post<Campaign>(environment.URL, campaign);
   }
 
   deleteCampaign(campaignId: string): Observable<Campaign> {
-    return this.http.delete<Campaign>(
-      `https://mock-crcf.onrender.com/campaigns/${campaignId}`
-    );
+    return this.http.delete<Campaign>(`${environment.URL}/${campaignId}`);
   }
 
   updateCampaignById(
     id: string,
     updatedCampaign: Campaign
   ): Observable<Campaign> {
-    return this.http.put<Campaign>(
-      `https://mock-crcf.onrender.com/campaigns/${id}`,
-      updatedCampaign
-    );
+    return this.http.put<Campaign>(`${environment.URL}/${id}`, updatedCampaign);
   }
 }

@@ -35,6 +35,15 @@ button {
     width: 100% !important;
   }
 
+  .multiselect-dropdown {
+    .dropdown-list {
+      min-height: 150px !important;
+      ul {
+        position: relative !important;
+      }
+    }
+  }
+
   mat-slider {
     width: 100%;
   }

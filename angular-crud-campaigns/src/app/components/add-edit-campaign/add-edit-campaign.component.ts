@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import {
-  FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -26,25 +25,9 @@ import { CampaignsService } from '../../services/campaigns.service';
 import { CoreService } from '../../core/core.service';
 import { Campaign } from '../../models/campaign.model';
 import { BudgetService } from '../../services/budget.service';
-enum Fields {
-  NAME = 'name',
-  STATUS = 'status',
-  KEYWORD = 'keyword',
-  BIDAMOUNT = 'bidAmount',
-  CAMPAIGNFUND = 'campaignFund',
-  TOWN = 'town',
-  RADIUS = 'radius',
-}
+import { Fields, FormType } from '../../models/campaignForm.model';
 
-interface FormType {
-  [Fields.NAME]: FormControl<string>;
-  [Fields.STATUS]: FormControl<string>;
-  [Fields.KEYWORD]: FormControl<string[]>;
-  [Fields.BIDAMOUNT]: FormControl<number>;
-  [Fields.CAMPAIGNFUND]: FormControl<number>;
-  [Fields.TOWN]: FormControl<string>;
-  [Fields.RADIUS]: FormControl<number>;
-}
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-edit-campaign',
@@ -76,10 +59,7 @@ export class AddEditCampaignComponent implements OnInit {
       Validators.required,
       Validators.min(20),
     ]),
-    [Fields.CAMPAIGNFUND]: this.fb.control(0, [
-      Validators.required,
-      //Validators.max(this.budget),
-    ]),
+    [Fields.CAMPAIGNFUND]: this.fb.control(0, [Validators.required]),
     [Fields.TOWN]: this.fb.control('', [Validators.required]),
     [Fields.RADIUS]: this.fb.control(0, [Validators.required]),
   });
@@ -102,15 +82,12 @@ export class AddEditCampaignComponent implements OnInit {
     private campaignsService: CampaignsService,
     private coreService: CoreService,
     private dialogRef: MatDialogRef<AddEditCampaignComponent>,
-    private budgetService: BudgetService,
+    private destroyRef: DestroyRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.campaignForm.patchValue(this.data);
-    // this.budgetService
-    //   .getBudget()
-    //   .pipe(tap((budget) => (this.budget = budget)));
   }
 
   onFormSubmit() {
@@ -126,6 +103,7 @@ export class AddEditCampaignComponent implements OnInit {
   private updateCampaign() {
     this.campaignsService
       .updateCampaignById(this.data.id, this.campaignForm.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (campaign: Campaign) => {
           this.updateCampaignState(campaign);
@@ -139,6 +117,7 @@ export class AddEditCampaignComponent implements OnInit {
   private addCampaign() {
     this.campaignsService
       .addCampaign(this.campaignForm.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (campaign: Campaign) => {
           this.addCampaignToState(campaign);

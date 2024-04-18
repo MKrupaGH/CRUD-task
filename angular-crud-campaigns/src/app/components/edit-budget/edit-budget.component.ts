@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import {
-  MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
   MatDialogTitle,
@@ -48,15 +47,6 @@ export class EditBudgetComponent {
     private budgetService: BudgetService,
     private campaignsService: CampaignsService
   ) {}
-
-  // allFunds: number = this.campaignsService.campaignsState.pipe(
-  //   map((campaigns) => {
-  //     return campaigns.reduce(
-  //       (acc, campaign) => acc - campaign.campaignFund,
-  //       0
-  //     );
-  //   })
-  // );
 
   onFormSubmit() {
     if (this.budgetForm.valid) {
