@@ -7,6 +7,28 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Mocked server for this application is hosted with use of Render.com.
 `json-server` has been used.
 
+## Get the Code
+
+Either clone this repository or fork it on GitHub and clone your fork:
+
+```
+git clone https://github.com/angular-app/angular-app.git
+cd angular-app
+```
+## App Server
+
+Our backend application server is a NodeJS application that relies upon some 3rd Party npm packages.  You need to install these:
+
+Install local dependencies (from the project root folder):
+
+    ```
+    cd server
+    npm install
+    cd ..
+    ```
+
+  (This will install the dependencies declared in the server/package.json file)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
