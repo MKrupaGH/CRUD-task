@@ -1,4 +1,9 @@
-import { Component, DestroyRef, Inject, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,10 +29,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CampaignsService } from '../../services/campaigns.service';
 import { CoreService } from '../../core/core.service';
 import { Campaign } from '../../models/campaign.model';
-import { BudgetService } from '../../services/budget.service';
 import { Fields, FormType } from '../../models/campaignForm.model';
-
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-campaign',
@@ -49,8 +52,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './add-edit-campaign.component.html',
   styleUrl: './add-edit-campaign.component.scss',
 })
-export class AddEditCampaignComponent implements OnInit {
-  //budget!: number;
+export class AddEditCampaignComponent implements OnInit, OnDestroy {
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   campaignForm = this.fb.group<FormType>({
     [Fields.NAME]: this.fb.control('', [Validators.required]),
     [Fields.STATUS]: this.fb.control('', [Validators.required]),
@@ -82,12 +85,16 @@ export class AddEditCampaignComponent implements OnInit {
     private campaignsService: CampaignsService,
     private coreService: CoreService,
     private dialogRef: MatDialogRef<AddEditCampaignComponent>,
-    private destroyRef: DestroyRef,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.campaignForm.patchValue(this.data);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   onFormSubmit() {
@@ -103,7 +110,7 @@ export class AddEditCampaignComponent implements OnInit {
   private updateCampaign() {
     this.campaignsService
       .updateCampaignById(this.data.id, this.campaignForm.getRawValue())
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (campaign: Campaign) => {
           this.updateCampaignState(campaign);
@@ -117,7 +124,7 @@ export class AddEditCampaignComponent implements OnInit {
   private addCampaign() {
     this.campaignsService
       .addCampaign(this.campaignForm.getRawValue())
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (campaign: Campaign) => {
           this.addCampaignToState(campaign);
