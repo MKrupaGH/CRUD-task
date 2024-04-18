@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BudgetService {
-  budget = new BehaviorSubject<number>(10000);
+  budget = new BehaviorSubject<number>(100000);
 
   getBudget(): Observable<number> {
     return this.budget.asObservable();
