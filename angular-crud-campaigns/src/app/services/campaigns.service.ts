@@ -14,7 +14,7 @@ export class CampaignsService {
   constructor(private http: HttpClient) {}
 
   getCampaigns(): Observable<Campaign[]> {
-    return this.http.get<Campaign[]>(environment.URL).pipe(
+    return this.http.get<Campaign[]>(environment.APIURL).pipe(
       tap((campaigns) => this.campaignsState.next(campaigns)),
       catchError((err) => {
         return of(err);
@@ -23,17 +23,20 @@ export class CampaignsService {
   }
 
   addCampaign(campaign: Campaign): Observable<Campaign> {
-    return this.http.post<Campaign>(environment.URL, campaign);
+    return this.http.post<Campaign>(environment.APIURL, campaign);
   }
 
   deleteCampaign(campaignId: string): Observable<Campaign> {
-    return this.http.delete<Campaign>(`${environment.URL}/${campaignId}`);
+    return this.http.delete<Campaign>(`${environment.APIURL}/${campaignId}`);
   }
 
   updateCampaignById(
     id: string,
     updatedCampaign: Campaign
   ): Observable<Campaign> {
-    return this.http.put<Campaign>(`${environment.URL}/${id}`, updatedCampaign);
+    return this.http.put<Campaign>(
+      `${environment.APIURL}/${id}`,
+      updatedCampaign
+    );
   }
 }
