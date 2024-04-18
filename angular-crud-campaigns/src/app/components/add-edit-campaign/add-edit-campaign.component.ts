@@ -2,7 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -57,6 +61,7 @@ interface FormType {
     ReactiveFormsModule,
     CommonModule,
     NgMultiSelectDropDownModule,
+    MatDialogTitle,
   ],
   templateUrl: './add-edit-campaign.component.html',
   styleUrl: './add-edit-campaign.component.scss',

@@ -1,9 +1,10 @@
 .list {
-  width: 100% !important;
-  table {
-    width: 80% !important;
-    @media screen and (max-width: 800px) {
-      width: 100%;
-    }
-  }
+  position: relative;
+  top: 1rem;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1024px !important;
+  display: flex;
+  justify-self: center;
 }

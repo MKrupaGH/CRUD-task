@@ -1,8 +1,9 @@
-<div mat-dialog-title>
-  <h1>Campaign Form</h1>
-</div>
+<mat-dialog-title mat-dialog-title>
+  <h1>{{data ? 'Update Campaign' :
+    'Create Campaign'}}</h1>
+</mat-dialog-title>
 <form [formGroup]="campaignForm" (ngSubmit)="onFormSubmit()">
-  <div mat-dialog-content class="content">
+  <mat-dialog-content class="content">
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Campaign Name</mat-label>
@@ -51,7 +52,7 @@
         <input matInput type="number" formControlName="radius">
       </mat-form-field>
     </div>
-  </div>
+  </mat-dialog-content>
   <div mat-dialog-actions class="action">
     <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="!campaignForm.valid" type="submit">{{data ? 'Update' :

@@ -2,15 +2,15 @@
   <h1>Budget Edit</h1>
 </div>
 <form [formGroup]="budgetForm" (ngSubmit)="onFormSubmit()">
-  <div mat-dialog-content class="content">
+  <mat-dialog-content class="content">
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Budget ($)</mat-label>
-        <input matInput type="text" formControlName="budget">
+        <input matInput type="number" formControlName="budget">
       </mat-form-field>
     </div>
 
-  </div>
+  </mat-dialog-content>
   <div mat-dialog-actions class="action">
     <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="!budgetForm.valid" type="submit">Save</button>

@@ -1,8 +1,5 @@
 <div class="mat-elevation-z8 list" *ngIf="dataSource$ | async as dataSource">
-<!-- *ngIf="dataSource$ | async as dataSource" -->
-  <table mat-table [dataSource]=" dataSource">
-
-    <!-- ID Column -->
+  <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let row"> {{row.id}} </td>
@@ -27,7 +24,7 @@
         <button mat-icon-button color="primary" ariaLabel="edit" (click)="openEditForm(row)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" ariaLabel="delete" (click)="deleteCampaign(row.id)">
+        <button mat-icon-button color="warn" ariaLabel="delete" (click)="onDeleteCampaign(row.id)">
           <mat-icon>delete</mat-icon>
         </button>
 

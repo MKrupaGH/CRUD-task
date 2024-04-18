@@ -20,12 +20,5 @@ export class HeaderComponent {
   constructor(private dialog: MatDialog) {}
   openAddEditEmpForm() {
     const dialogRef = this.dialog.open(AddEditCampaignComponent);
-    // dialogRef.afterClosed().subscribe({
-    //   next: (val) => {
-    //     if (val) {
-    //       this.getEmployeeList();
-    //     }
-    //   },
-    // });
   }
 }

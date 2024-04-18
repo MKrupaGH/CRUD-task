@@ -17,6 +17,8 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BudgetService } from '../../services/budget.service';
+import { CampaignsService } from '../../services/campaigns.service';
+import { map, reduce } from 'rxjs';
 @Component({
   selector: 'app-edit-budget',
   standalone: true,
@@ -27,6 +29,9 @@ import { BudgetService } from '../../services/budget.service';
     MatInputModule,
     MatFormFieldModule,
     MatDialogClose,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
   ],
   templateUrl: './edit-budget.component.html',
   styleUrl: './edit-budget.component.scss',
@@ -40,8 +45,18 @@ export class EditBudgetComponent {
     @Inject(MAT_DIALOG_DATA) public data: number,
     private fb: NonNullableFormBuilder,
     private dialogRef: MatDialogRef<EditBudgetComponent>,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private campaignsService: CampaignsService
   ) {}
+
+  // allFunds: number = this.campaignsService.campaignsState.pipe(
+  //   map((campaigns) => {
+  //     return campaigns.reduce(
+  //       (acc, campaign) => acc - campaign.campaignFund,
+  //       0
+  //     );
+  //   })
+  // );
 
   onFormSubmit() {
     if (this.budgetForm.valid) {
